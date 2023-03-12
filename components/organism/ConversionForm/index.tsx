@@ -22,14 +22,16 @@ const ConversionForm: React.FC = () => {
 
   const handleNprChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    setNpr(value === "" ? "" : Number(value))
-    setBusd(value === "" ? "" : Number(value) * 3)
+    const roundedValue = value === "" ? "" : Number(Number(value).toFixed(2))
+    setNpr(roundedValue)
+    setBusd(roundedValue === "" ? "" : Number((roundedValue * 3).toFixed(2)))
   }
 
   const handleBusdChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    setBusd(value === "" ? "" : Number(value))
-    setNpr(value === "" ? "" : Number(value) / 3)
+    const roundedValue = value === "" ? "" : Number(Number(value).toFixed(2))
+    setBusd(roundedValue)
+    setNpr(roundedValue === "" ? "" : Number((roundedValue / 3).toFixed(2)))
   }
 
   return (
