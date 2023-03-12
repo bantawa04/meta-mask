@@ -15,10 +15,33 @@ const StyledCard = styled(Card)`
     display: flex;
     justify-content: center;
   }
+  button.connect {
+    background-color: hsl(141, 53%, 53%);
+    color: white;
+    :hover,
+    :focus,
+    :active {
+      background-color: #00c4a7;
+      border-color: transparent;
+      color: #fff;
+    }
+  }
+  button.disconnect {
+    background-color: hsl(348, 100%, 61%);
+    color: white;
+    :hover,
+    :focus,
+    :active {
+      background-color: #f03a5f;
+      border-color: transparent;
+      color: #fff;
+    }
+  }
 `
 const MetamaskCard: React.FC = () => {
   const [balance, setBalance] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
+  const [isActive, setActive] = useState(false)
   const { active, account, library, connector, activate } =
     useWeb3React<Web3Provider>()
 
@@ -31,6 +54,7 @@ const MetamaskCard: React.FC = () => {
       notification.success({
         message: "Account connected ",
       })
+      setActive(active)
       setLoading(false)
     } catch (ex) {
       notification.error({
@@ -45,11 +69,14 @@ const MetamaskCard: React.FC = () => {
     try {
       void connector?.deactivate()
       localStorage.setItem("isWalletConnected", "false")
+      setActive(false)
+      notification.success({
+        message: "Account disconnected ",
+      })
     } catch (e) {
       console.log(e)
     }
   }
-  console.log("Connector:", connector)
 
   useEffect(() => {
     const connectWalletOnPageLoad = async () => {
@@ -78,8 +105,8 @@ const MetamaskCard: React.FC = () => {
   }
   return (
     <Col span={12}>
-      <StyledCard title={"Account Details"}>
-        {active ? (
+      <StyledCard title={"Metamask Account Details"}>
+        {isActive ? (
           <div>
             <h3>{"BNB balance: " + balance.toFixed(3)}</h3>
             <span>{"Connected with account: " + account}</span>
@@ -88,13 +115,15 @@ const MetamaskCard: React.FC = () => {
           <span>{"Not Connected"}</span>
         )}
         <div className="buttonWrapper">
-          {active ? (
-            <Button onClick={disconnect}>{"Disconnect"}</Button>
+          {isActive ? (
+            <Button onClick={disconnect} className={"disconnect"}>
+              {"Disconnect"}
+            </Button>
           ) : (
             <Button
               icon={<CloudSyncOutlined />}
-              type="primary"
               onClick={connect}
+              className={"connect"}
             >
               {"Connect"}
             </Button>

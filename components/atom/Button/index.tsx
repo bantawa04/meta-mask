@@ -9,8 +9,13 @@ interface ButtonProps {
   icon?: React.ReactNode
   type?: ButtonType
   loading?: boolean
+  className?: string
 }
-const StyledButton = styled<any>(Button)``
+const StyledButton = styled<any>(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 const ButtonComponent: React.FC<ButtonProps> = ({
   children,
@@ -18,9 +23,15 @@ const ButtonComponent: React.FC<ButtonProps> = ({
   icon,
   type = "primary",
   loading,
+  className,
 }) => {
   return (
-    <StyledButton icon={icon} onClick={onClick} loading={loading}>
+    <StyledButton
+      icon={icon}
+      onClick={onClick}
+      loading={loading}
+      className={className}
+    >
       {children}
     </StyledButton>
   )
