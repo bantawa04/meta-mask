@@ -19,7 +19,7 @@ const StyledCard = styled(Card)`
 const MetamaskCard: React.FC = () => {
   const [balance, setBalance] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(false)
-  const { active, account, library, connector, activate, deactivate } =
+  const { active, account, library, connector, activate } =
     useWeb3React<Web3Provider>()
 
   const provider = library
@@ -42,23 +42,11 @@ const MetamaskCard: React.FC = () => {
   }
 
   const disconnect = async () => {
-    console.log("Disconnecting...")
-    if (connector?.removeListener) {
-      console.log("Using removeListener...")
-      connector.removeListener("disconnect", () => {
-        deactivate()
-        localStorage.setItem("isWalletConnected", "false")
-        console.log("isWalletConnected set to false")
-      })
-    } else {
-      console.log("Using EventEmitter...")
-      const events = new EventEmitter()
-      events.once("disconnect", () => {
-        deactivate()
-        localStorage.setItem("isWalletConnected", "false")
-        console.log("isWalletConnected set to false")
-      })
-      connector?.off?.("disconnect", events.emit.bind(events, "disconnect"))
+    try {
+      void connector?.deactivate()
+      localStorage.setItem("isWalletConnected", "false")
+    } catch (e) {
+      console.log(e)
     }
   }
   console.log("Connector:", connector)
