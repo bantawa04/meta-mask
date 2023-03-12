@@ -1,9 +1,7 @@
 import React, { ChangeEvent, useState } from "react"
 import styled from "styled-components"
-import { Card } from "antd"
-import {} from "antd/"
-import { InputField, Button } from "@/components"
-import { SyncOutlined } from "@ant-design/icons"
+import { Card, Col } from "antd"
+import { InputField } from "@/components"
 
 const StyledCard = styled(Card)`
   margin-top: 50px;
@@ -35,34 +33,31 @@ const ConversionForm: React.FC = () => {
   }
 
   return (
-    <StyledCard title={"NPR to CRYPTO"}>
-      <div className="firstField">
-        <InputField
-          height="40px"
-          label="NPR"
-          value={npr === "" ? "" : npr}
-          onChange={handleNprChange}
-          type="number"
-          step="0.01"
-        />
-      </div>
+    <Col span={12}>
+      <StyledCard title={"NPR to CRYPTO"}>
+        <div className="firstField">
+          <InputField
+            height="40px"
+            label="NPR"
+            value={npr === "" ? "" : npr}
+            onChange={handleNprChange}
+            type="number"
+            step="0.01"
+          />
+        </div>
 
-      <div className="secondField">
-        <InputField
-          height="40px"
-          label="BUSD"
-          value={busd === "" ? "" : busd}
-          onChange={handleBusdChange}
-          type="number"
-          step="0.01"
-        />
-      </div>
-      <div className="buttonWrapper">
-        <Button icon={<SyncOutlined />} type="primary">
-          {"Convert"}
-        </Button>
-      </div>
-    </StyledCard>
+        <div className="secondField">
+          <InputField
+            height="40px"
+            label="BUSD"
+            value={busd === "" ? "" : busd}
+            onChange={handleBusdChange}
+            type="number"
+            step="0.01"
+          />
+        </div>
+      </StyledCard>
+    </Col>
   )
 }
 

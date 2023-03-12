@@ -2,7 +2,7 @@ import Head from "next/head"
 import { GlobalStyles } from "@/utils"
 import { Col, Layout, Row } from "antd"
 import styled from "styled-components"
-import { ConversionForm } from "@/components"
+import { ConversionForm, MetamaskCard } from "@/components"
 
 const { Content } = Layout
 const LayoutWrapper = styled(Layout)<any>`
@@ -25,8 +25,11 @@ export default function Home() {
       <LayoutWrapper>
         <Content className="content">
           <Row>
-            <Col span={12} offset={6}>
-              <ConversionForm />
+            <Col span={16} offset={4}>
+              <Row gutter={16}>
+                <ConversionForm />
+                <MetamaskCard />
+              </Row>
             </Col>
           </Row>
         </Content>
